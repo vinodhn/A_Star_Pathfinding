@@ -1,5 +1,6 @@
 # A* Pathfinding Algorithm
 # By Vinodh N.
+import window
 
 # Node Class
 class Node():
@@ -14,6 +15,7 @@ class Node():
 
     def __eq__(self, other):
         return self.position == other.position
+
 
 # Main A* Pathfinding Loop
 def pathfind(grid, start, end):
@@ -115,7 +117,9 @@ def main():
     end = (7, 6)
 
     path = pathfind(grid, start, end)
-    print(path)
+    #print(path)
+
+    window.create(grid, path)
 
 if __name__ == '__main__':
     main()
