@@ -15,18 +15,17 @@ class Window(Frame):
 
     def draw_grid(self, grid = None, path = None, canvas = None):
         x,y = 0,0
-        for row in range(0,10):
-            for col in range(0,10):
-                print(grid[row][col])
-                if grid[row][col] == 1:
-                    canvas.create_rectangle(x,y,50,50, outline="black", fill="black", width=1)
-                    x = x + 50
-                else:
-                    canvas.create_rectangle(x,y,50,50, outline="black", fill="white", width=1)
-                    x = x + 50
-            print("")
-            y = y + 50
-            x = 0
+        for row in range(10):
+            for col in range(10):
+                x1 = col * 50
+                x2 = x1 + 50
+                y1 = row * 50
+                y2 = y1 + 50
+                if grid[row][col] == 0:
+                    print("{0}  {1}  {2}  {3}".format(x1,y1,x2,y2))
+                    canvas.create_rectangle(x1,y1,x2,y2, fill="white")
+                elif grid[row][col] == 1:
+                    canvas.create_rectangle(x1,y1,x2,y2, fill="black")
 
 def create(grid = None, path = None):
     
