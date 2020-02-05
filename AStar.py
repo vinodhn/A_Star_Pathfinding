@@ -119,7 +119,7 @@ def main():
     path = pathfind(grid, start, end)
     #print(path)
 
-    window.create(grid, path)
+    window.create(grid, path, start, end)
 
 if __name__ == '__main__':
     main()
