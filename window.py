@@ -11,6 +11,7 @@ class Window(Frame):
 
         canvas = Canvas(self)
         self.draw_grid(grid,canvas)
+        self.draw_path(path, canvas)
         self.draw_start_end(start,end,canvas)
         canvas.pack(fill=BOTH, expand=1)
 
@@ -37,6 +38,15 @@ class Window(Frame):
         canvas.create_rectangle(startX * 50, startY * 50, startSqX, startSqY, fill="blue")
         canvas.create_rectangle(endX * 50, endY * 50, endSquareX, endSquareY, fill="red")
         
+    def draw_path(self, path = None, canvas = None):
+        for point in path:
+            x1, y1 = point
+            x1 = x1 * 50
+            y1 = y1 * 50
+            x2 = x1 + 50
+            y2 = y1 + 50
+            canvas.create_rectangle(x1,y1,x2,y2, fill = "purple")
+            
 
 def create(grid = None, path = None, start = None, end = None):
     
