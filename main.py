@@ -3,6 +3,7 @@
 # Based on the code by Nicholas Swift
 
 from tkinter import *
+from tkinter import messagebox
 import AStar
 
 class GUI(Frame):
@@ -111,13 +112,16 @@ class GUI(Frame):
 
     def create_path(self):
         if self.start_node == None or self.end_node == None:
-            print("You need a start node AND end node.")
+            messagebox.showerror(title="Error", message="Error: You need both a Start Node and End Node")
         else:
             for node in self.wall_nodes:
                 self.grid[node[0]][node[1]] = 1
 
             path = AStar.pathfind(self.grid, self.start_node, self.end_node)
-            self.draw_path(path)
+            if path is not None:
+                self.draw_path(path)
+            else:
+                messagebox.showerror(title="Error", message="Error: Couldn't find a path from start to finish")
 
     def reset_board(self):
         self.set_start_node = False
