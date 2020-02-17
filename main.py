@@ -2,7 +2,7 @@
 # By Vinodh N.
 
 from tkinter import *
-import astar
+import AStar
 
 class GUI(Frame):
 
@@ -27,7 +27,7 @@ class GUI(Frame):
         self.canvas = Canvas(self, width=500, height=500)
         self.draw_grid()
         self.canvas.grid(column=0, row=0, sticky="nsew")
-        self.canvas.bind("<Button 1>", self.print_mouse_coords)
+        self.canvas.bind("<Button 1>", self.set_nodes)
 
     def draw_grid(self):
         x,y = 0,0
@@ -39,7 +39,21 @@ class GUI(Frame):
                 y2 = y1 + 50
                 self.canvas.create_rectangle(x1,y1,x2,y2, fill="white")
 
-    def print_mouse_coords(self, event):
+    def draw_path(self, path = None):
+        for point in path:
+            x1, y1 = point
+            x1 = x1 * 50
+            y1 = y1 * 50
+            x2 = x1 + 50
+            y2 = y1 + 50
+            if point == self.start_node:
+                self.canvas.create_rectangle(x1,y1,x2,y2, fill = "blue")
+            elif point == self.end_node:
+                self.canvas.create_rectangle(x1,y1,x2,y2, fill = "red")
+            else:
+                self.canvas.create_rectangle(x1,y1,x2,y2, fill = "purple")
+
+    def set_nodes(self, event):
         x_rollover = event.x % 50
         y_rollover = event.y % 50
 
@@ -66,7 +80,7 @@ class GUI(Frame):
 
     def start_algorithm(self):
         print("START")
-        self.create_grid()
+        self.create_path()
 
     def set_start_nodes(self):
         if self.start_node == None:
@@ -86,7 +100,7 @@ class GUI(Frame):
         self.set_wall_node = True
 
 
-    def create_grid(self):
+    def create_path(self):
         if self.start_node == None or self.end_node == None:
             print("You need a start node AND end node.")
         else:
@@ -103,6 +117,9 @@ class GUI(Frame):
             
             for node in self.wall_nodes:
                 grid[node[0]][node[1]] = 1
+
+            path = AStar.pathfind(grid, self.start_node, self.end_node)
+            self.draw_path(path)
 
 def main():
 
