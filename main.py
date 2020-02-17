@@ -1,5 +1,6 @@
 # A* Pathfinding Algorithm
-# By Vinodh N.
+# Created by Vinodh N.
+# Based on the code by Nicholas Swift
 
 from tkinter import *
 import AStar
@@ -16,6 +17,17 @@ class GUI(Frame):
         self.start_node = None
         self.end_node = None
         self.wall_nodes = []
+
+        self.grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
         self.initUI()
 
@@ -62,19 +74,16 @@ class GUI(Frame):
         
         if self.set_start_node == True and self.start_node == None:
             self.canvas.create_rectangle(box_x,box_y,box_x + 50,box_y + 50, fill="blue")
-            print("START NODE")
             self.start_node = (int(box_x/50), int(box_y/50))
             self.set_start_node = False
 
         elif self.set_end_node == True and self.end_node == None:
             self.canvas.create_rectangle(box_x,box_y,box_x + 50,box_y + 50, fill="red")
-            print("END NODE")
             self.end_node = (int(box_x/50), int(box_y/50))
             self.set_end_node = False
 
         elif self.set_wall_node == True:
             self.canvas.create_rectangle(box_x,box_y,box_x + 50,box_y + 50, fill="black")
-            print("WALL NODE")
             self.wall_nodes.append((int(box_x/50), int(box_y/50)))
 
 
@@ -104,22 +113,33 @@ class GUI(Frame):
         if self.start_node == None or self.end_node == None:
             print("You need a start node AND end node.")
         else:
-            grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-            
             for node in self.wall_nodes:
-                grid[node[0]][node[1]] = 1
+                self.grid[node[0]][node[1]] = 1
 
-            path = AStar.pathfind(grid, self.start_node, self.end_node)
+            path = AStar.pathfind(self.grid, self.start_node, self.end_node)
             self.draw_path(path)
+
+    def reset_board(self):
+        self.set_start_node = False
+        self.set_end_node = False
+        self.set_wall_node = False
+
+        self.start_node = None
+        self.end_node = None
+        self.wall_nodes = []
+
+        self.grid = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        
+        self.draw_grid()
 
 def main():
 
@@ -130,7 +150,7 @@ def main():
     frame.pack()
     start_button = Button(frame, text="Start", fg="green", command=ex.start_algorithm)
     start_button.pack(side=LEFT, fill='x')
-    quit_button = Button(frame, text="Quit", fg="red", command=quit)
+    quit_button = Button(frame, text="Reset", fg="red", command=ex.reset_board)
     quit_button.pack(side=LEFT, fill='x')
     set_start_button = Button(frame, text="Set start node", command=ex.set_start_nodes)
     set_start_button.pack(side=LEFT, fill='x')
