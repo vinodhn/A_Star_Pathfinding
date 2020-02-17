@@ -1,6 +1,4 @@
-# A* Pathfinding Algorithm
-# By Vinodh N.
-import window
+
 import math
 
 # Node Class
@@ -110,28 +108,3 @@ def get_path(currentNode):
         path.append(current.position)
         current = current.parent
     return path[::-1]     
-
-def main():
-    
-    # MUST BE 10 x 10 grid
-    grid = [[1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
-
-    start = (1, 1)
-    end = (8, 6)
-
-    path = pathfind(grid, start, end)
-    #print(path)
-
-    window.create(grid, path, start, end)
-
-if __name__ == '__main__':
-    main()
